@@ -1,0 +1,31 @@
+name: Build PDF
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends texlive-base texlive-latex-extra texlive-fonts-recommended texlive-font-utils ghostscript
+
+      - name: Build
+        run: |
+          mkdir output
+          pdflatex -interaction=nonstopmode -output-directory=output -jobname=hacklab_articles hacklab_articles.tex
+          pdflatex -interaction=nonstopmode -output-directory=output -jobname=hacklab_articles hacklab_articles.tex
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: output/hacklab_articles.pdf
