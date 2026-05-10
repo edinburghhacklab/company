@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
 
       - name: Install dependencies
         run: |
@@ -25,7 +25,8 @@ jobs:
           pdflatex -interaction=nonstopmode -output-directory=output -jobname=hacklab_articles hacklab_articles.tex
           pdflatex -interaction=nonstopmode -output-directory=output -jobname=hacklab_articles hacklab_articles.tex
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v7
         with:
           name: PDF
           path: output/hacklab_articles.pdf
+          archive: false
